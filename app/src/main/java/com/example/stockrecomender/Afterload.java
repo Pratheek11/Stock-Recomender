@@ -18,6 +18,7 @@ public class Afterload extends AppCompatActivity {
         getit = findViewById(R.id.getit);
         knowmore = findViewById(R.id.knowmore);
 
+        //this takes us to chrome tab for learning more about "Market"
         knowmore.setOnClickListener(v -> {
             Toast.makeText(getBaseContext(), "Varsity app by Zerodha", Toast.LENGTH_LONG).show();
             Uri uri = Uri.parse("https://zerodha.com/varsity/");
@@ -25,9 +26,10 @@ public class Afterload extends AppCompatActivity {
             startActivity(lm);
         });
 
+        //this is used to call api and load data
         getit.setOnClickListener(v -> {
-                Intent it = new Intent(Afterload.this, Showstock.class);
-                startActivity(it);
+            Intent it = new Intent(Afterload.this, Showstock.class);
+            startActivity(it);
         });
 
     }

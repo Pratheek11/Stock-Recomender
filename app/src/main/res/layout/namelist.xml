@@ -10,6 +10,7 @@
     app:flow_verticalAlign="center">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
