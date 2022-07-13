@@ -28,10 +28,8 @@ public class Showstock extends AppCompatActivity {
     ImageView backtohome;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-    ArrayList<String> data = new ArrayList<>();
-    String[] dataFin = {"TATA MOTORS", "WIPRO", "RIL"};
+    ArrayList<Data> dataset = new ArrayList<>();
     String base_url = "https://newsdata.io/api/1/news?apikey=pub_89180c8e3eb93a40cb354f8f7084cb971ba3&country=in&category=business&language=en";
-    //String base_url = "https://newsapi.org/v2/top-headlines?category=business&language=en&country=in&apiKey=c0f282d0b87348e3b58b22de9d5d2605";
     JSONArray tmp = new JSONArray();
     Pattern patPos = Pattern.compile("^.*[\b(invested|funded|profit|growth|decreade in debt|profit growth| sales growth| invest| dividend issued | approval| update| growth in sales| profit margin| )\b].*$");
     Pattern patNeg = Pattern.compile("^.*[\b(fell|bankcrupt|stepped away|decrease in sales|loss|no capital|all time low|workers strike|workers protest)\b].*$");
@@ -61,38 +59,24 @@ public class Showstock extends AppCompatActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                     (Request.Method.GET, base_url, null, response -> {
                         try {
-
+                            //the respone is recieved here
                             tmp = response.getJSONArray("results");
-                            Log.d("ll", tmp.length() + " tmp");
-//                            dataFin = new String[tmp.length()];
-//                            Log.d("ll", dataFin.length + " datafin");
-//                            for(int i=0;i<tmp.length();i++){
-//                                JSONObject obj = tmp.getJSONObject(i);
-//                                dataFin[i] = obj.getString("title");
-//                                Log.d("ll", i +" " + dataFin[i]);
-//                            }
+                            // each object is iterated to match the pattern
                             for(int i=0;i<tmp.length();i++){
-                                //matchObject(tmp.getJSONObject(i));
                                 JSONObject obj = tmp.getJSONObject(i);
                                 String desc = obj.getString("description");
-                                boolean a = patPos.matcher(desc).matches();
-                                Log.d("ll", a + " pos");
+
                                 if(patPos.matcher(desc).matches()){
-                                    Log.d("ll", "matches pos");
                                     if(patNeg.matcher(desc).matches()){
-                                        Log.d("ll", "does not matches neg");
-                                        data.add(obj.getString("title"));
+                                        String title = obj.getString("title");
+                                        String link = obj.getString("link");
+                                        dataset.add(new Data(title, link));
                                     }
                                 }
                             }
-                            Log.d("ll", data.size() +" data");
-                            dataFin = new String[data.size()];
-                            for(int i=0;i<data.size();i++){
-                                dataFin[i] = data.get(i);
-                            }
                             recyclerView = findViewById(R.id.recyclerView);
                             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                            recyclerAdapter = new RecyclerAdapter(this, dataFin);
+                            recyclerAdapter = new RecyclerAdapter(this, dataset);
                             recyclerView.setAdapter(recyclerAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

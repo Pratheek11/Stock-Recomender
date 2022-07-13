@@ -1,11 +1,11 @@
 package com.example.stockrecomender;
 
 public class Data {
-    private String title;
-    private String desciptiom;
+    public String title;
+    public String link;
 
-    public Data(String title, String desciptiom){
+    public Data(String title, String link){
         this.title = title;
-        this.desciptiom = desciptiom;
+        this.link = link;
     }
 }
